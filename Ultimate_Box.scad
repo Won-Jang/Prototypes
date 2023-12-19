@@ -43,6 +43,8 @@ in order to have the appropriate flexibility.
 //----------------------- Box parameters ---------------------------
 TS=[
 [140,100,90,90,"DSUB25.stl"]];
+DB25width = 40;
+DB25height = 10;
 /* [Box options] */
 // - Wall thickness
 Thick = 2;
@@ -93,7 +95,7 @@ SnapTabs = 0; // [0:Screws, 1:Snaps]
 
 /* [PCB options] */
 // - PCB Length
-PCBLength = 130;
+PCBLength = 101.5;
 // - PCB Width
 PCBWidth = 85;
 // - PCB Thickness
@@ -103,7 +105,7 @@ PCBThick = 1.6;
 // - Margin between front panel and PCB
 FrontEdgeMargin = 6;
 // - Margin between back panel and PCB
-BackEdgeMargin = 31;
+BackEdgeMargin = 82;
 // - Margin between left wall and PCB
 LeftEdgeMargin = 10;
 // - Margin between right wall and PCB
@@ -116,9 +118,9 @@ TopMargin = 30;
 // - Foot height above box interior
 FootHeight = 25;
 // - Foot diameter
-FootDia = 8;
+FootDia = 7;
 // - Hole diameter, or peg for screwless design
-FootHole = 2.2606; // tap size for #4 coarse-thread
+FootHole = 2.5; // tap size for #4 coarse-thread
 // - EXPERIMENTAL Screwless design
 Screwless = 0; // [0:Screws, 1:Screwless]
 FootFilet = FootHeight/4;
@@ -146,9 +148,9 @@ Foot4X = PCBLength - Foot4XFromEdge;
 Foot4YFromEdge = 5;
 Foot4Y = PCBWidth - Foot4YFromEdge;
 
-Foot5X = -10;
+Foot5X = 15.4-BackEdgeMargin;
 Foot5Y = 20;
-Foot6X = -10;
+Foot6X = 15.4-BackEdgeMargin;
 Foot6YFromEdge = 20;
 Foot6Y = PCBWidth - Foot6YFromEdge;
 
@@ -249,8 +251,7 @@ module FPanelHoles() {
     Sw: height of rectangle
     Filet: radius of rounded corner
     */
-    DB25width = 40;
-    DB25height = 10;
+    
     PolygonHole(1, (PanelWidth/2)-(DB25width/2), (PanelHeight/2)-(DB25height/2), DB25width, DB25height, 2);
     CylinderHole(1, (PanelWidth/2)-(DB25width/2)-2.85, PanelHeight/2, 2.38); // Left
     CylinderHole(1, (PanelWidth/2)+(DB25width/2)+2.85, PanelHeight/2, 2.38); // Right
@@ -586,7 +587,7 @@ module PCB() {
 
     Produces a single foot for PCB mounting.
 */
-module foot(top=0) {
+module foot(top=0, FH=10) {
     color(Couleur1) {
         rotate_extrude($fn=100) {
             difference() {
@@ -595,11 +596,11 @@ module foot(top=0) {
                         square([FootDia/2 + FootFilet, TopMargin]);
                     }
                     else if (Screwless && !top) { // Foot for PCB peg
-                        square([FootDia/2 + FootFilet, FootHeight + PCBThick*2]);
+                        square([FootDia/2 + FootFilet, FH + PCBThick*2]);
                     }
                     else if (!Screwless && !top) { // Foot with screw hole
                         translate([FootHole/2 + CutoutMargin, 0, 0]) {
-                            square([(FootDia - FootHole)/2 - CutoutMargin + FootFilet, FootHeight]);
+                            square([(FootDia - FootHole)/2 - CutoutMargin + FootFilet, FH]);
                         }
                     }
                 }
@@ -609,7 +610,7 @@ module foot(top=0) {
                     }
                 }
                 if (Screwless && !top) { // Remove around peg
-                    translate([FootHole/2 - PartMargin, FootHeight]) {
+                    translate([FootHole/2 - PartMargin, FH]) {
                         polygon([[0, 0],
                                  [FootDia/2, 0],
                                  [FootDia/2, PCBThick*3],
@@ -653,22 +654,22 @@ module Feet(top=0) {
 
         if (Screwless || !top ) {
             translate([Foot1X, Foot1Y]) {
-                foot(top=top);
+                foot(top=top, FH=(PanelHeight/2)+(DB25height/2));
             }
             translate([Foot2X, Foot2Y]) {
-                foot(top=top);
+                foot(top=top, FH=(PanelHeight/2)+(DB25height/2));
                 }
             translate([Foot3X, Foot3Y]) {
-                foot(top=top);
+                foot(top=top, FH=(PanelHeight/2)+(DB25height/2));
                 }
             translate([Foot4X, Foot4Y]) {
-                foot(top=top);
+                foot(top=top, FH=(PanelHeight/2)+(DB25height/2));
                 }
             translate([Foot5X, Foot5Y]) {
-                foot(top=top);
+                foot(top=top, FH=(PanelHeight/2) -5);
                 }
             translate([Foot6X, Foot6Y]) {
-                foot(top=top);
+                foot(top=top, FH=(PanelHeight/2) -5);
                 }
         }
     }
