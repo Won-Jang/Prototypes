@@ -41,8 +41,10 @@ in order to have the appropriate flexibility.
 
 // preview[view:north east, tilt:top diagonal]
 //----------------------- Box parameters ---------------------------
+//DB25
 TS=[
-[140,100,90,90,"DSUB25.stl"]];
+[0,0,0,0,"DSUB25.stl"]];
+
 DB25width = 40;
 DB25height = 10;
 /* [Box options] */
@@ -229,6 +231,8 @@ PanelTopEdge = PanelHeight - Thick + PanelVerticalGap;
 PanelLeftEdge = Thick - PanelHorizontalGap;
 PanelRightEdge = PanelWidth - Thick + PanelHorizontalGap;
 
+
+    
 // Holes for front panel
 module FPanelHoles() {
     // SquareHole(On/Off, Xpos,Ypos,Length,Width,Filet)
@@ -255,6 +259,8 @@ module FPanelHoles() {
     PolygonHole(1, (PanelWidth/2)-(DB25width/2), (PanelHeight/2)-(DB25height/2), DB25width, DB25height, 2);
     CylinderHole(1, (PanelWidth/2)-(DB25width/2)-2.85, PanelHeight/2, 2.38); // Left
     CylinderHole(1, (PanelWidth/2)+(DB25width/2)+2.85, PanelHeight/2, 2.38); // Right
+    
+   
 }
 
 
@@ -802,8 +808,10 @@ module PolygonHole(OnOff, Sx, Sy, Sl, Sw, Filet) {
             offset(r=Offset, $fn=Resolution) {
                 polygon(points=[[0,0],[Sl - Filet*2,0],[Sl - Filet*2-1.3,Sw - Filet*2],[1.3,Sw - Filet*2]]);
             }
+
         }
     }
+    
 }
 
 

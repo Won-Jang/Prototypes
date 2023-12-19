@@ -89,29 +89,12 @@ difference() {
   union() {  
     cube([L-RC*2,W,E],center=true);
     cube([L,W-RC*2,E],center=true);
-    for(x=[-L/2+RC,L/2-RC]) {    
-        for(y=[-W/2+RC,W/2-RC]) {    
-          translate([x,y,-E/2]) cylinder(r=RC,h=E,$fn=240);
-      } // for y
-    }  // for x   
+     // for x   
   } // uni
   
     // on enleve ce qui suit
 
-    // trous circulaires
-    for(N=[0:len(T)-1]) {  
-        translate([T[N][0],T[N][1],-5]) cylinder(d=T[N][2],h=20,$fn=120);
-    }   // for N circ
- 
-    // trous rectangulaires
-    for(N=[0:len(R)-1]) {  
-        translate([R[N][0],R[N][1],-5]) cube([R[N][2],R[N][3],20],center=true);
-    }   // for N rect 
 
-    // trous pour servos
-    for(N=[0:len(S)-1]) {  
-        Servo(S[N][0],S[N][1],S[N][2]);  
-    }  // for N
 
     // trous par objet STL
     for(N=[0:len(TS)-1]) {  
