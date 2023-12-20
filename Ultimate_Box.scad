@@ -255,7 +255,8 @@ module FPanelHoles() {
     Sw: height of rectangle
     Filet: radius of rounded corner
     */
-    
+    // trous par objet STL
+  
     PolygonHole(1, (PanelWidth/2)-(DB25width/2), (PanelHeight/2)-(DB25height/2), DB25width, DB25height, 2);
     CylinderHole(1, (PanelWidth/2)-(DB25width/2)-2.85, PanelHeight/2, 2.38); // Left
     CylinderHole(1, (PanelWidth/2)+(DB25width/2)+2.85, PanelHeight/2, 2.38); // Right
