@@ -43,7 +43,7 @@ in order to have the appropriate flexibility.
 //----------------------- Box parameters ---------------------------
 //DB25
 TS=[
-[0,0,0,0,"DSUB25.stl"]];
+[50,20,0,0,"DSUB25.stl"]];
 
 DB25width = 40;
 DB25height = 10;
@@ -873,6 +873,7 @@ module CText(OnOff, Tx, Ty, Font, Size, TxtRadius, Angl, Turn, Content) {
     FPanelHoles() and FPanelText() which must be edited to produce holes and
     text for your box.
 */
+/*
 module FPanL() {
     translate([Length - (Thick + PanelThickGap + PanelThick),
                Thick + PanelHorizontalGap,
@@ -896,7 +897,31 @@ module FPanL() {
         }
     }
 }
-
+*/
+module FPanL() {
+    translate([Length - (Thick + PanelThickGap + PanelThick),
+               Thick + PanelHorizontalGap,
+               Thick + PanelVerticalGap]) {
+        rotate([90, 0, 90]) {
+            color(Couleur2) {
+                    difference() {
+                        union() {  
+                            Panel();
+                          }
+                          for(N=[0:len(TS)-1]) {  
+        translate([TS[N][0],TS[N][1],TS[N][2]]) rotate([0,0,TS[N][3]]) import(TS[N][4]);  
+        echo("TS[N][1]: ", TS[N][1]);
+    }  // for N 
+                    }
+            }
+            color(TextColor) {
+                if (PanelFeatures) {
+                    FPanelText();
+                }
+            }
+        }
+    }
+}
 
 /*  BPanL module
 

@@ -63,7 +63,7 @@ CutoutMargin = 0.3;
 // - Margin between mating parts
 PartMargin = 0.1;
 // - PCB feet? (x4)
-PCBFeet = 1; // [0:No, 1:Yes]
+PCBFeet = 0; // [0:No, 1:Yes]
 // - Decorations?
 Decorations = 1; // [0:No, 1:Yes]
 // - Decorations to ventilation holes
@@ -81,11 +81,11 @@ include <global.scad>
 
 /* [PCB options] */
 // - PCB Length
-PCBLength = 143.4;
+PCBLength = 157;
 // - PCB Width
-PCBWidth = 110;
+PCBWidth = 88;
 // - PCB Thickness
-PCBThick = 18;
+PCBThick = 70;
 // You likely need to maintain |TabThick| margin on the left and right for tabs
 // and whatnot.
 // - Margin between front panel and PCB
