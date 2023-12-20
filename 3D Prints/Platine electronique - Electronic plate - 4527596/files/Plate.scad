@@ -1,12 +1,12 @@
 /* [Plate dimensions - taille platine] */
 // Longueur Length
-L=70;
+L=104.3;
 // Largeur  Width
-W=50;
+W=56.4;
 // Rayon des coins ou 0 - Corner radius or 0
-RC=0;
+RC=3;
 // Epaisseur  Thickness
-E=2;
+E=2.23;
 
 /* [Dimensions servo] */
 //Longueur Length
@@ -49,9 +49,8 @@ T=[
 //Trous rectangulaires X Y longX largY
 
 //DB25
-TS=[
-[0,0,0,0,"DSUB25.stl"]];
-
+//TS=[[0,4.15,0,0,"DSUB25.stl"]];       // Back
+TS=[[0,-5.2,0,0,"DSUB25.stl"]];          // Front
 // Potentiometres    X Y angle calage, dia trou dia calage
 
 
@@ -96,17 +95,6 @@ difference() {
     }  // for x   
   } // uni
   
-    // on enleve ce qui suit
-
-    // trous circulaires
-    for(N=[0:len(T)-1]) {  
-        translate([T[N][0],T[N][1],-5]) cylinder(d=T[N][2],h=20,$fn=120);
-    }   // for N circ
- 
-    // trous rectangulaires
-    for(N=[0:len(R)-1]) {  
-        translate([R[N][0],R[N][1],-5]) cube([R[N][2],R[N][3],20],center=true);
-    }   // for N rect 
 
     // trous pour servos
     for(N=[0:len(S)-1]) {  
