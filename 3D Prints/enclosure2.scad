@@ -76,42 +76,26 @@ PanelVerticalGap = PartMargin;
 PanelHorizontalGap = CutoutMargin + PartMargin;
 
 
-/* [Box Fixation Tabs] */
-// - Side screw hole (or snap) diameter
-ScrewHole = 2.2606;
-// - Screw thread major diameter for outer shell
-BoxHole = 2.8448;
-// Thickness of fixation tabs
-TabThick = 2;
-// Back left tab
-BLTab = 1; // [0:Bottom, 1:Top]
-// Back right tab
-BRTab = 1; // [0:Bottom, 1:Top]
-// Front left tab
-FLTab = 1; // [0:Bottom, 1:Top]
-// Front right tab
-FRTab = 1; // [0:Bottom, 1:Top]
-// EXPERIMENTAL: Snap tabs
-SnapTabs = 0; // [0:Screws, 1:Snaps]
+include <global.scad>
 
 
 /* [PCB options] */
 // - PCB Length
-PCBLength = 101.5;
+PCBLength = 143.4;
 // - PCB Width
-PCBWidth = 85;
+PCBWidth = 110;
 // - PCB Thickness
-PCBThick = 1.6;
+PCBThick = 18;
 // You likely need to maintain |TabThick| margin on the left and right for tabs
 // and whatnot.
 // - Margin between front panel and PCB
-FrontEdgeMargin = 6;
+FrontEdgeMargin = 2.4;
 // - Margin between back panel and PCB
-BackEdgeMargin = 82;
+BackEdgeMargin = Global_Box_Length - (FrontEdgeMargin + PCBLength);
 // - Margin between left wall and PCB
-LeftEdgeMargin = 10;
+LeftEdgeMargin = (Global_Box_Width-PCBWidth)/2;
 // - Margin between right wall and PCB
-RightEdgeMargin = 10;
+RightEdgeMargin = (Global_Box_Width-PCBWidth)/2;
 // - Margin between top of PCB and box top.
 TopMargin = 30;
 
@@ -130,31 +114,31 @@ FootFilet = FootHeight/4;
 // Foot centers are specified as distance from PCB back-left corner.
 // X is along the "length" axis, and Y is along the "width" axis.
 // - Foot 1 distance from back PCB edge
-Foot1X = 5;
+Foot1X = 6;
 // - Foot 1 distance from left PCB edge
-Foot1Y = 5;
+Foot1Y = 6;
 // - Foot 2 distance from back PCB edge
-Foot2X = 5;
+Foot2X = 6;
 // - Foot 2 distance from right PCB edge
-Foot2YFromEdge = 5;
+Foot2YFromEdge = 6;
 Foot2Y = PCBWidth - Foot2YFromEdge;
 // - Foot 3 distance from front PCB edge
-Foot3XFromEdge = 5;
+Foot3XFromEdge = 6;
 Foot3X = PCBLength - Foot3XFromEdge;
 // - Foot 3 distance from left PCB edge
-Foot3Y = 5;
+Foot3Y = 6;
 // - Foot 4 distance from front PCB edge
-Foot4XFromEdge = 5;
+Foot4XFromEdge = 6;
 Foot4X = PCBLength - Foot4XFromEdge;
 // - Foot 4 distance from right PCB edge
-Foot4YFromEdge = 5;
+Foot4YFromEdge = 6;
 Foot4Y = PCBWidth - Foot4YFromEdge;
 
-Foot5X = 15.4-BackEdgeMargin;
-Foot5Y = 20;
-Foot6X = 15.4-BackEdgeMargin;
-Foot6YFromEdge = 20;
-Foot6Y = PCBWidth - Foot6YFromEdge;
+Foot5X = XFromEdgeToHole-BackEdgeMargin;
+Foot5Y = (PCBWidth - 44)/2;
+
+Foot6X = XFromEdgeToHole-BackEdgeMargin;
+Foot6Y = ((PCBWidth - 44)/2) + 44;
 
 
 
@@ -208,7 +192,6 @@ MountInset = Thick*3 + PanelThick + PanelThickGap*2 + ScrewHole*4;
 // Calculate panel dimensions from box dimensions.
 PanelWidth = Width - Thick*2 - PanelHorizontalGap*2;
 PanelHeight = Height - Thick*2 - PanelVerticalGap*2;
-
 
 /*  Panel Manager
 
@@ -661,22 +644,23 @@ module Feet(top=0) {
 
         if (Screwless || !top ) {
             translate([Foot1X, Foot1Y]) {
-                foot(top=top, FH=(PanelHeight/2)+(DB25height/2));
+                foot(top=top, FH=35);
             }
             translate([Foot2X, Foot2Y]) {
-                foot(top=top, FH=(PanelHeight/2)+(DB25height/2));
+                foot(top=top, FH=35);
                 }
             translate([Foot3X, Foot3Y]) {
-                foot(top=top, FH=(PanelHeight/2)+(DB25height/2));
+                foot(top=top, FH=35);
                 }
             translate([Foot4X, Foot4Y]) {
-                foot(top=top, FH=(PanelHeight/2)+(DB25height/2));
+                foot(top=top, FH=35);
                 }
             translate([Foot5X, Foot5Y]) {
-                foot(top=top, FH=(PanelHeight/2) -5);
+                foot(top=top, FH=(PanelHeight/2) - 5);
                 }
             translate([Foot6X, Foot6Y]) {
-                foot(top=top, FH=(PanelHeight/2) -5);
+                foot(top=top, FH=(PanelHeight/2) - 5);
+                echo("FH: ", (PanelHeight/2) - 5);
                 }
         }
     }
