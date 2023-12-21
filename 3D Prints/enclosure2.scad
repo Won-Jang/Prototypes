@@ -44,9 +44,6 @@ in order to have the appropriate flexibility.
 //DB25
 TS=[
 [0,0,0,0,"DSUB25.stl"]];
-
-DB25width = 40;
-DB25height = 10;
 /* [Box options] */
 // - Wall thickness
 Thick = 2;
@@ -89,7 +86,7 @@ PCBThick = 18;
 // You likely need to maintain |TabThick| margin on the left and right for tabs
 // and whatnot.
 // - Margin between front panel and PCB
-FrontEdgeMargin = 2.4;
+FrontEdgeMargin = 2.4+0.2;
 // - Margin between back panel and PCB
 BackEdgeMargin = Global_Box_Length - (FrontEdgeMargin + PCBLength);
 // - Margin between left wall and PCB

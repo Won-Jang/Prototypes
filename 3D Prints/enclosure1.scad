@@ -43,8 +43,7 @@ in order to have the appropriate flexibility.
 //----------------------- Box parameters ---------------------------
 
 
-DB25width = 40;
-DB25height = 10;
+
 /* [Box options] */
 // - Wall thickness
 Thick = 2;
@@ -87,7 +86,7 @@ PCBThick = 1.6;
 // You likely need to maintain |TabThick| margin on the left and right for tabs
 // and whatnot.
 // - Margin between front panel and PCB
-FrontEdgeMargin = 6;
+FrontEdgeMargin = 6+0.2;
 // - Margin between back panel and PCB
 BackEdgeMargin = Global_Box_Length - (FrontEdgeMargin + PCBLength);
 // - Margin between left wall and PCB
@@ -138,9 +137,10 @@ Foot5Y = (PCBWidth - 44)/2;
 Foot6X = XFromEdgeToHole-BackEdgeMargin;
 Foot6Y = ((PCBWidth - 44)/2) + 44;
 
-Foot7X = XFromEdgeToHole-BackEdgeMargin + 60;
+Foot7X = -BackEdgeMargin + CenterXFromEdgeToHole;
 Foot7Y = ((PCBWidth - 44)/2) + 22;
 
+echo("BackEdgeMargin: ", BackEdgeMargin);
 
 /* [STL element to export] */
 // - Top shell

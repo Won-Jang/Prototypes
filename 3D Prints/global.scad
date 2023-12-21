@@ -3,8 +3,12 @@ Global_Box_Length = 193.5;
 BoxLength = 183.5;
 
 //DB25
-XFromEdgeToHole = 16.5;
+XFromEdgeToHole = 16;
+CenterXFromEdgeToHole = 76.8;
 DB25PCBHeight = 15.5;
+
+DB25width = 40;
+DB25height = 10;
 
 /* [Box Fixation Tabs] */
 // - Side screw hole (or snap) diameter
