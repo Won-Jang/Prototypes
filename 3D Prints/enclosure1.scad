@@ -41,9 +41,7 @@ in order to have the appropriate flexibility.
 
 // preview[view:north east, tilt:top diagonal]
 //----------------------- Box parameters ---------------------------
-//DB25
-TS=[
-[50,20,0,0,"DSUB25.stl"]];
+
 
 DB25width = 40;
 DB25height = 10;
@@ -194,7 +192,6 @@ MountInset = Thick*3 + PanelThick + PanelThickGap*2 + ScrewHole*4;
 // Calculate panel dimensions from box dimensions.
 PanelWidth = Width - Thick*2 - PanelHorizontalGap*2;
 PanelHeight = Height - Thick*2 - PanelVerticalGap*2;
-echo("PanelWidth: ", PanelWidth);
 
 /*  Panel Manager
 
@@ -217,6 +214,11 @@ PanelTopEdge = PanelHeight - Thick + PanelVerticalGap;
 PanelLeftEdge = Thick - PanelHorizontalGap;
 PanelRightEdge = PanelWidth - Thick + PanelHorizontalGap;
 
+//DB25.STL
+TS_front=[
+[PanelWidth/2,FootHeight+(PCBThick/2),0,180,"DSUB25.stl"]];
+TS_back=[
+[PanelWidth/2,(FootHeight-5)+8,0,0,"DSUB25.stl"]]; // 6
 
     
 // Holes for front panel
@@ -905,14 +907,20 @@ module FPanL() {
         rotate([90, 0, 90]) {
             color(Couleur2) {
                     difference() {
-                        union() {  
+                        union() {
+                          linear_extrude(height=PanelThick) {  
                             Panel();
                           }
-                          for(N=[0:len(TS)-1]) {  
-        translate([TS[N][0],TS[N][1],TS[N][2]]) rotate([0,0,TS[N][3]]) import(TS[N][4]);  
-        echo("TS[N][1]: ", TS[N][1]);
-    }  // for N 
+                        }
+                        for(N=[0:len(TS_front)-1]) {  
+        translate([TS_front[N][0],TS_front[N][1],TS_front[N][2]]) rotate([0,0,TS_front[N][3]]) import(TS_front[N][4]);  
+        echo("TS[N][1]: ", TS_front[N][1]);
+                        } 
+                         // for N 
+                        
                     }
+                
+                    
             }
             color(TextColor) {
                 if (PanelFeatures) {
@@ -935,16 +943,21 @@ module BPanL() {
                Thick + PanelVerticalGap]) {
         rotate([90, 0, 270]) {
             color(Couleur2) {
-                linear_extrude(height=PanelThick) {
                     difference() {
-                        Panel();
-                        if (PanelFeatures) {
-                            BPanelHoles();
+                        union() {
+                          linear_extrude(height=PanelThick) {  
+                            Panel();
+                          }
                         }
-                        // trous par objet STL
+                        for(N=[0:len(TS_back)-1]) {  
+        translate([TS_back[N][0],TS_back[N][1],TS_back[N][2]]) rotate([0,0,TS_back[N][3]]) import(TS_back[N][4]);  
+        echo("TS[N][1]: ", TS_back[N][1]);
+                        } 
+                         // for N 
                         
                     }
-                }
+                
+                    
             }
             color(TextColor) {
                 if (PanelFeatures) {
