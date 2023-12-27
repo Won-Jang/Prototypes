@@ -42,6 +42,8 @@ in order to have the appropriate flexibility.
 // preview[view:north east, tilt:top diagonal]
 //----------------------- Box parameters ---------------------------
 
+
+
 /* [Box options] */
 // - Wall thickness
 Thick = 2;
@@ -76,28 +78,28 @@ include <global.scad>
 
 /* [PCB options] */
 // - PCB Length
-PCBLength = 143.4;
+PCBLength = 101.5;
 // - PCB Width
-PCBWidth = 110;
+PCBWidth = 85;
 // - PCB Thickness
-PCBThick = 18;
+PCBThick = 1.6;
 // You likely need to maintain |TabThick| margin on the left and right for tabs
 // and whatnot.
 // - Margin between front panel and PCB
-FrontEdgeMargin = 2.4+0.2;
+FrontEdgeMargin = 6+0.2;
 // - Margin between back panel and PCB
-BackEdgeMargin = Global_Box_Length - (FrontEdgeMargin + PCBLength);
+BackEdgeMargin = 30;
 // - Margin between left wall and PCB
-LeftEdgeMargin = (Global_Box_Width-PCBWidth)/2;
+LeftEdgeMargin = 100;
 // - Margin between right wall and PCB
-RightEdgeMargin = (Global_Box_Width-PCBWidth)/2;
+RightEdgeMargin = 20;
 // - Margin between top of PCB and box top.
 TopMargin = 30;
 
 
 /* [PCB_Feet] */
 // - Foot height above box interior
-FootHeight = 30;
+FootHeight = 25;
 // - Foot diameter
 FootDia = 7;
 // - Hole diameter, or peg for screwless design
@@ -109,34 +111,34 @@ FootFilet = FootHeight/4;
 // Foot centers are specified as distance from PCB back-left corner.
 // X is along the "length" axis, and Y is along the "width" axis.
 // - Foot 1 distance from back PCB edge
-Foot1X = 6;
+Foot1X = 5;
 // - Foot 1 distance from left PCB edge
-Foot1Y = 6;
+Foot1Y = 5;
 // - Foot 2 distance from back PCB edge
-Foot2X = 6;
+Foot2X = 5;
 // - Foot 2 distance from right PCB edge
-Foot2YFromEdge = 6;
+Foot2YFromEdge = 5;
 Foot2Y = PCBWidth - Foot2YFromEdge;
 // - Foot 3 distance from front PCB edge
-Foot3XFromEdge = 6;
+Foot3XFromEdge = 5;
 Foot3X = PCBLength - Foot3XFromEdge;
 // - Foot 3 distance from left PCB edge
-Foot3Y = 6;
+Foot3Y = 5;
 // - Foot 4 distance from front PCB edge
-Foot4XFromEdge = 6;
+Foot4XFromEdge = 5;
 Foot4X = PCBLength - Foot4XFromEdge;
 // - Foot 4 distance from right PCB edge
-Foot4YFromEdge = 6;
+Foot4YFromEdge = 5;
 Foot4Y = PCBWidth - Foot4YFromEdge;
 
-Foot5X = XFromEdgeToHole-BackEdgeMargin;
-Foot5Y = (PCBWidth - 44)/2;
+Foot5X = PCBLength;
+Foot5Y = -60;
 
-Foot6X = XFromEdgeToHole-BackEdgeMargin;
-Foot6Y = ((PCBWidth - 44)/2) + 44;
+Foot6X = PCBLength;
+Foot6Y = -30;
 
-Foot7X = -BackEdgeMargin + CenterXFromEdgeToHole;
-Foot7Y = ((PCBWidth - 44)/2) + 22;
+Foot7X = PCBLength/2;
+Foot7Y = -45;
 
 echo("BackEdgeMargin: ", BackEdgeMargin);
 
@@ -217,7 +219,7 @@ TS_front=[
 [PanelWidth/2,FootHeight+(PCBThick/2),0,180,"DSUB25.stl"]];
 TS_back=[
 [PanelWidth/2,(FootHeight-5)+8,0,0,"DSUB25.stl"]]; // 6
-    
+
     
 // Holes for front panel
 module FPanelHoles() {
@@ -873,6 +875,7 @@ module CText(OnOff, Tx, Ty, Font, Size, TxtRadius, Angl, Turn, Content) {
     FPanelHoles() and FPanelText() which must be edited to produce holes and
     text for your box.
 */
+/*
 module FPanL() {
     translate([Length - (Thick + PanelThickGap + PanelThick),
                Thick + PanelHorizontalGap,
@@ -896,7 +899,37 @@ module FPanL() {
         }
     }
 }
-
+*/
+module FPanL() {
+    translate([Length - (Thick + PanelThickGap + PanelThick),
+               Thick + PanelHorizontalGap,
+               Thick + PanelVerticalGap]) {
+        rotate([90, 0, 90]) {
+            color(Couleur2) {
+                    difference() {
+                        union() {
+                          linear_extrude(height=PanelThick) {  
+                            Panel();
+                          }
+                        }
+                        for(N=[0:len(TS_front)-1]) {  
+        translate([TS_front[N][0],TS_front[N][1],TS_front[N][2]]) rotate([0,0,TS_front[N][3]]) import(TS_front[N][4]);  
+        echo("TS[N][1]: ", TS_front[N][1]);
+                        } 
+                         // for N 
+                        
+                    }
+                
+                    
+            }
+            color(TextColor) {
+                if (PanelFeatures) {
+                    FPanelText();
+                }
+            }
+        }
+    }
+}
 
 /*  BPanL module
 
@@ -910,16 +943,21 @@ module BPanL() {
                Thick + PanelVerticalGap]) {
         rotate([90, 0, 270]) {
             color(Couleur2) {
-                linear_extrude(height=PanelThick) {
                     difference() {
-                        Panel();
-                        if (PanelFeatures) {
-                            BPanelHoles();
+                        union() {
+                          linear_extrude(height=PanelThick) {  
+                            Panel();
+                          }
                         }
-                        // trous par objet STL
+                        for(N=[0:len(TS_back)-1]) {  
+        translate([TS_back[N][0],TS_back[N][1],TS_back[N][2]]) rotate([0,0,TS_back[N][3]]) import(TS_back[N][4]);  
+        echo("TS[N][1]: ", TS_back[N][1]);
+                        } 
+                         // for N 
                         
                     }
-                }
+                
+                    
             }
             color(TextColor) {
                 if (PanelFeatures) {

@@ -42,8 +42,6 @@ in order to have the appropriate flexibility.
 // preview[view:north east, tilt:top diagonal]
 //----------------------- Box parameters ---------------------------
 
-
-
 /* [Box options] */
 // - Wall thickness
 Thick = 2;
