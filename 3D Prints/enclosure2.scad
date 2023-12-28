@@ -214,7 +214,7 @@ PanelRightEdge = PanelWidth - Thick + PanelHorizontalGap;
 
 //DB25.STL
 TS_front=[
-[PanelWidth/2,FootHeight+(PCBThick/2),0,180,"DSUB25.stl"]];
+[PanelWidth/2, FootHeight+(PCBThick/2),0,0,"DSUB25.stl"]];
 TS_back=[
 [PanelWidth/2,(FootHeight-5)+8,0,0,"DSUB25.stl"]]; // 6
     
@@ -879,14 +879,21 @@ module FPanL() {
                Thick + PanelVerticalGap]) {
         rotate([90, 0, 90]) {
             color(Couleur2) {
-                linear_extrude(height=PanelThick) {
                     difference() {
-                        Panel();
-                        if (PanelFeatures) {
-                            FPanelHoles();
+                        union() {
+                          linear_extrude(height=PanelThick) {  
+                            Panel();
+                          }
                         }
+                        for(N=[0:len(TS_front)-1]) {  
+        translate([TS_front[N][0],TS_front[N][1],TS_front[N][2]]) rotate([0,0,TS_front[N][3]]) import(TS_front[N][4]);  
+        echo("TS[N][1]: ", TS_front[N][1]);
+                        } 
+                         // for N 
+                        
                     }
-                }
+                
+                    
             }
             color(TextColor) {
                 if (PanelFeatures) {
