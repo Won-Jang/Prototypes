@@ -78,7 +78,7 @@ include <global.scad>
 // - PCB Length
 PCBLength = 143.4;
 // - PCB Width
-PCBWidth = 110;
+PCBWidth = 90;
 // - PCB Thickness
 PCBThick = 18;
 // You likely need to maintain |TabThick| margin on the left and right for tabs
@@ -92,12 +92,12 @@ LeftEdgeMargin = (Global_Box_Width-PCBWidth)/2;
 // - Margin between right wall and PCB
 RightEdgeMargin = (Global_Box_Width-PCBWidth)/2;
 // - Margin between top of PCB and box top.
-TopMargin = 30;
+TopMargin = 35;
 
 
 /* [PCB_Feet] */
 // - Foot height above box interior
-FootHeight = 30;
+FootHeight = 35;
 // - Foot diameter
 FootDia = 7;
 // - Hole diameter, or peg for screwless design
@@ -659,13 +659,13 @@ module Feet(top=0) {
                 foot(top=top, FH=FootHeight);
                 }
             translate([Foot5X, Foot5Y]) {
-                foot(top=top, FH=FootHeight-5);
+                foot(top=top, FH=FootHeight-8);
                 }
             translate([Foot6X, Foot6Y]) {
-                foot(top=top, FH=FootHeight-5);
+                foot(top=top, FH=FootHeight-8);
                 }
             translate([Foot7X, Foot7Y]) {
-                foot(top=top, FH=FootHeight-5);
+                foot(top=top, FH=FootHeight-8);
                 }
         }
     }
