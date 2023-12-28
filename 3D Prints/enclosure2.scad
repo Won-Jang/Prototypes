@@ -216,7 +216,7 @@ PanelRightEdge = PanelWidth - Thick + PanelHorizontalGap;
 TS_front=[
 [PanelWidth/2, FootHeight+(PCBThick/2),0,0,"DSUB25.stl"]];
 TS_back=[
-[PanelWidth/2,(FootHeight-5)+8,0,0,"DSUB25.stl"]]; // 6
+[PanelWidth/2,(FootHeight-5)+8,0,180,"DSUB25.stl"]]; // 6
     
     
 // Holes for front panel
@@ -286,13 +286,7 @@ module BPanelText() {
           "Arial Black",
           4, "PWR"
     );*/
-    LText(1,
-          LeftEdgeOfBoardWRTBPanel + 37.3 + 39.2/2,
-          TopOfBoardWRTPanel + 12.55 + 2,
-          "Arial Black",
-          4,
-          "OUT"
-    );
+   
 }
 
 
@@ -917,16 +911,21 @@ module BPanL() {
                Thick + PanelVerticalGap]) {
         rotate([90, 0, 270]) {
             color(Couleur2) {
-                linear_extrude(height=PanelThick) {
                     difference() {
-                        Panel();
-                        if (PanelFeatures) {
-                            BPanelHoles();
+                        union() {
+                          linear_extrude(height=PanelThick) {  
+                            Panel();
+                          }
                         }
-                        // trous par objet STL
+                        for(N=[0:len(TS_back)-1]) {  
+        translate([TS_back[N][0],TS_back[N][1],TS_back[N][2]]) rotate([0,0,TS_back[N][3]]) import(TS_back[N][4]);  
+        echo("TS[N][1]: ", TS_back[N][1]);
+                        } 
+                         // for N 
                         
                     }
-                }
+                
+                    
             }
             color(TextColor) {
                 if (PanelFeatures) {
