@@ -214,9 +214,9 @@ PanelRightEdge = PanelWidth - Thick + PanelHorizontalGap;
 
 //DB25.STL
 TS_front=[
-[PanelWidth/2, FootHeight+(PCBThick/2),0,0,"DSUB25.stl"]];
+[PanelWidth/2, FootHeight+(PCBThick/2)-1,0,0,"DSUB25.stl"]];
 TS_back=[
-[PanelWidth/2,(FootHeight-5)+8,0,180,"DSUB25.stl"]]; // 6
+[PanelWidth/2,20,0,180,"DSUB25.stl"]]; // 6
     
     
 // Holes for front panel
