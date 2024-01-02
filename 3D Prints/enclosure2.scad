@@ -60,15 +60,15 @@ PartMargin = 0.1;
 // - PCB feet? (x4)
 PCBFeet = 1; // [0:No, 1:Yes]
 // - Decorations?
-Decorations = 1; // [0:No, 1:Yes]
+Decorations = 0; // [0:No, 1:Yes]
 // - Decorations to ventilation holes
-Vent = 1; // [0:No, 1:Yes]
+Vent = 0; // [0:No, 1:Yes]
 // - Decoration-Holes width (in mm)
 Vent_width = 1.5;
 // - Tolerance (Panel/rails gap on one edge)
 PanelThickGap = CutoutMargin + PartMargin;
-PanelVerticalGap = PartMargin;
-PanelHorizontalGap = CutoutMargin + PartMargin;
+PanelVerticalGap = PartMargin + 0.2;
+PanelHorizontalGap = CutoutMargin + PartMargin + 0.2;
 
 
 include <global.scad>
@@ -214,7 +214,7 @@ PanelRightEdge = PanelWidth - Thick + PanelHorizontalGap;
 
 //DB25.STL
 TS_front=[
-[PanelWidth/2, FootHeight+(PCBThick/2)-1,0,0,"DSUB25.stl"]];
+[PanelWidth/2, FootHeight+(PCBThick/2)-1.25,0,0,"DSUB25.stl"]];
 TS_back=[
 [PanelWidth/2,20,0,180,"DSUB25.stl"]]; // 6
     
