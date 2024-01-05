@@ -68,7 +68,7 @@ Vent_width = 1.5;
 // - Tolerance (Panel/rails gap on one edge)
 PanelThickGap = CutoutMargin + PartMargin;
 PanelVerticalGap = PartMargin + 0.5;
-PanelHorizontalGap = CutoutMargin + PartMargin + 1;
+PanelHorizontalGap = CutoutMargin + PartMargin + 0.8;
 
 
 include <global.scad>
