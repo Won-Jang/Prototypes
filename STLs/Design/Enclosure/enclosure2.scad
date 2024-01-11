@@ -92,7 +92,7 @@ LeftEdgeMargin = (Global_Box_Width-PCBWidth)/2;
 // - Margin between right wall and PCB
 RightEdgeMargin = (Global_Box_Width-PCBWidth)/2;
 // - Margin between top of PCB and box top.
-TopMargin = 68;
+TopMargin = 35;
 
 
 /* [PCB_Feet] */
